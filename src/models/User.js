@@ -41,7 +41,7 @@ const User = sequelize.define('User', {
     defaultValue: true
   }
 }, {
-  tableName: 'usuarios',
+  tableName: 'users',
   timestamps: true,
   hooks: {
     // Encriptar contraseña antes de crear usuario
