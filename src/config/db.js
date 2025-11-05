@@ -59,7 +59,7 @@ const insertSampleData = async () => {
       await User.create({
         nombre: 'Super Administrador',
         email: 'superadmin@empresa.com',
-        password: 'superadmin123', // Sin hashear - el modelo lo hace automáticamente
+        password: 'Superadmin123', // Sin hashear - el modelo lo hace automáticamente
         rol: 'superadmin'
       })
       console.log('👑 Super admin creado: superadmin@empresa.com / superadmin123')
@@ -100,3 +100,4 @@ const insertSampleData = async () => {
 }
 
 module.exports = { sequelize, connectDB }
+
