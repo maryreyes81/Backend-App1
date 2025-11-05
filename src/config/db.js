@@ -12,7 +12,7 @@ const sequelize = new Sequelize({
   logging: false, // Desactivar logs SQL para mantener consola limpia
   define: {
     timestamps: true,
-    underscored: false
+    underscored: true
   }
 })
 
