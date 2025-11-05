@@ -29,7 +29,7 @@ async function crearSuperAdmin () {
     const superadmin = await User.create({
       nombre: 'Super Administrador',
       email: 'superadmin@empresa.com',
-      password: 'superadmin123',
+      password: 'Superadmin123',
       rol: 'superadmin'
     })
 
