@@ -31,7 +31,7 @@ const obtenerServicios = async (req, res) => {
     } else if (usuario.rol === 'admin') {
       // Admin: solo sus servicios
       servicios = await Service.findAll({
-        where: { usuarioId: usuario.id },
+        where: { user_id: usuario.id },
         include: [{
           model: User,
           as: 'user',
@@ -93,7 +93,7 @@ const crearServicio = async (req, res) => {
       nombre,
       descripcion,
       precio: parseFloat(precio),
-      usuarioId: usuario.id
+      user_id: usuario.id
     })
 
     // Incluir datos del usuario en la respuesta
@@ -137,7 +137,7 @@ const actualizarServicio = async (req, res) => {
     }
 
     // Verificar permisos
-    if (usuario.rol !== 'superadmin' && servicio.usuarioId !== usuario.id) {
+    if (usuario.rol !== 'superadmin' && servicio.user_id !== usuario.id) {
       return res.status(403).json({
         error: true,
         mensaje: 'No tienes permisos para actualizar este servicio'
@@ -191,7 +191,7 @@ const eliminarServicio = async (req, res) => {
     }
 
     // Verificar permisos
-    if (usuario.rol !== 'superadmin' && servicio.usuarioId !== usuario.id) {
+    if (usuario.rol !== 'superadmin' && servicio.user_id !== usuario.id) {
       return res.status(403).json({
         error: true,
         mensaje: 'No tienes permisos para eliminar este servicio'
