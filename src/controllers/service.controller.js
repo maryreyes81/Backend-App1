@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 const Service = require('../models/Service')
 const User = require('../models/User')
 
@@ -8,25 +7,26 @@ const obtenerServicios = async (req, res) => {
     const usuario = req.usuario // Puede ser undefined si no está autenticado
     let servicios
 
+
     if (!usuario) {
       // Vista pública: mostrar todos los servicios
       servicios = await Service.findAll({
         include: [{
           model: User,
-          as: 'usuario',
+          as: 'user',
           attributes: ['id', 'nombre', 'rol']
         }],
-        order: [['createdAt', 'DESC']]
+        order: [['created_at', 'DESC']]
       })
     } else if (usuario.rol === 'superadmin') {
       // Superadmin: ver todos los servicios
       servicios = await Service.findAll({
         include: [{
           model: User,
-          as: 'usuario',
+          as: 'user',
           attributes: ['id', 'nombre', 'rol']
         }],
-        order: [['createdAt', 'DESC']]
+        order: [['created_at', 'DESC']]
       })
     } else if (usuario.rol === 'admin') {
       // Admin: solo sus servicios
@@ -34,20 +34,20 @@ const obtenerServicios = async (req, res) => {
         where: { usuarioId: usuario.id },
         include: [{
           model: User,
-          as: 'usuario',
+          as: 'user',
           attributes: ['id', 'nombre', 'rol']
         }],
-        order: [['createdAt', 'DESC']]
+        order: [['created_at', 'DESC']]
       })
     } else {
       // Cliente: ver todos los servicios (solo lectura)
       servicios = await Service.findAll({
         include: [{
           model: User,
-          as: 'usuario',
+          as: 'user',
           attributes: ['id', 'nombre', 'rol']
         }],
-        order: [['createdAt', 'DESC']]
+        order: [['created_at', 'DESC']]
       })
     }
 
@@ -100,7 +100,7 @@ const crearServicio = async (req, res) => {
     const servicioConUsuario = await Service.findByPk(nuevoServicio.id, {
       include: [{
         model: User,
-        as: 'usuario',
+        as: 'user',
         attributes: ['id', 'nombre', 'rol']
       }]
     })
@@ -155,7 +155,7 @@ const actualizarServicio = async (req, res) => {
     const servicioActualizado = await Service.findByPk(id, {
       include: [{
         model: User,
-        as: 'usuario',
+        as: 'user',
         attributes: ['id', 'nombre', 'rol']
       }]
     })
