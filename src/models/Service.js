@@ -31,7 +31,7 @@ const Service = sequelize.define(
         min: 0,
       },
     },
-    usuarioId: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -48,6 +48,11 @@ const Service = sequelize.define(
   }
 );
 
+// 👇 Define la relación con User (opcional pero recomendado)
+Service.belongsTo(User, {
+  foreignKey: "user_id",
+  as: "user",
+});
 
 module.exports = Service;
 

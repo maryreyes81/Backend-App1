@@ -77,19 +77,19 @@ const insertSampleData = async () => {
           nombre: 'Desarrollo Web',
           descripcion: 'Creación de sitios web modernos y responsivos',
           precio: 2500.00,
-          usuarioId: primerUsuario.id
+          user_id: primerUsuario.id
         },
         {
           nombre: 'Consultoría IT',
           descripcion: 'Asesoría en tecnologías de información',
           precio: 1800.00,
-          usuarioId: primerUsuario.id
+          user_id: primerUsuario.id
         },
         {
           nombre: 'Diseño UX/UI',
           descripcion: 'Diseño de experiencias de usuario excepcionales',
           precio: 2200.00,
-          usuarioId: primerUsuario.id
+          user_id: primerUsuario.id
         }
       ])
       console.log('📋 Datos de ejemplo insertados')
