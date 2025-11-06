@@ -400,7 +400,7 @@
       let servicios = []
 
       // Verificar autenticación INMEDIATAMENTE (ejecutar antes de window.onload)
-      function verificarAuthInmediato () {
+      function verificarAuthInmediato() {
         const token = localStorage.getItem('token')
         const usuarioData = localStorage.getItem('usuario')
 
@@ -429,7 +429,7 @@
       }
 
       // Mostrar dashboard si está autenticado
-      function mostrarDashboard () {
+      function mostrarDashboard() {
         document.getElementById('loadingScreen').style.display = 'none'
         document.getElementById('dashboardContent').style.display = 'block'
       }
@@ -451,7 +451,7 @@
       }
 
       // Verificar si está autenticado
-      function verificarAuth () {
+      function verificarAuth() {
         const token = localStorage.getItem('token')
         const usuarioData = localStorage.getItem('usuario')
 
@@ -485,7 +485,7 @@
       }
 
       // Inicializar dashboard
-      function inicializarDashboard () {
+      function inicializarDashboard() {
         // Actualizar header
         document.getElementById('userWelcome').textContent = usuario.nombre
         document.getElementById('userRole').textContent = usuario.rol.toUpperCase()
@@ -521,7 +521,7 @@
       }
 
       // Configurar event listeners
-      function setupEventListeners () {
+      function setupEventListeners() {
         // Formulario crear servicio
         document.getElementById('formCrear').addEventListener('submit', crearServicio)
 
@@ -530,7 +530,7 @@
       }
 
       // Cargar estadísticas
-      async function cargarEstadisticas () {
+      async function cargarEstadisticas() {
         try {
           const response = await fetchWithAuth('/api/services')
           const data = await response.json()
@@ -540,7 +540,7 @@
 
             // Contar servicios del usuario actual
             const misServiciosCount = data.datos.filter(s =>
-              s.usuarioId === usuario.id || usuario.rol === 'superadmin'
+              s.user?.id === usuario.id || usuario.rol === 'superadmin'
             ).length
 
             document.getElementById('misServicios').textContent =
@@ -554,7 +554,7 @@
       }
 
       // Toggle servicios
-      function toggleServicios () {
+      function toggleServicios() {
         const list = document.getElementById('serviciosList')
         const btn = document.getElementById('btnToggleServicios')
 
@@ -571,7 +571,7 @@
       }
 
       // Cargar servicios
-      async function cargarServicios () {
+      async function cargarServicios() {
         const content = document.getElementById('serviciosContent')
         content.innerHTML = '<div class="loading">Cargando servicios...</div>'
 
@@ -592,7 +592,7 @@
       }
 
       // Mostrar servicios
-      function mostrarServicios (serviciosList) {
+      function mostrarServicios(serviciosList) {
         const content = document.getElementById('serviciosContent')
 
         if (serviciosList.length === 0) {
@@ -603,37 +603,34 @@
         let html = ''
         serviciosList.forEach(servicio => {
           const puedeEditar = usuario.rol === 'superadmin' ||
-            (usuario.rol === 'admin' && servicio.usuarioId === usuario.id)
+            (usuario.rol === 'admin' && servicio.user?.id === usuario.id)
 
           html += `
-                    <div class="service-item role-${servicio.usuario?.rol || 'cliente'}">
-                        <div class="service-info">
-                            <h4>${servicio.nombre}</h4>
-                            <p><strong>Precio:</strong> $${servicio.precio}</p>
-                            <p><strong>Descripción:</strong> ${servicio.descripcion || 'Sin descripción'}</p>
-                            <p><strong>Creado por:</strong> ${servicio.usuario?.nombre || 'Usuario'} 
-                               (${servicio.usuario?.rol || 'cliente'})</p>
-                            <p><strong>ID:</strong> ${servicio.id}</p>
-                        </div>
-                        <div class="service-actions">
-                            ${puedeEditar ? `
-                                <button class="btn btn-warning" onclick="editarServicio(${servicio.id})">
-                                    Editar
-                                </button>
-                                <button class="btn btn-danger" onclick="eliminarServicio(${servicio.id})">
-                                    Eliminar
-                                </button>
-                            ` : ''}
-                        </div>
-                    </div>
-                `
+      <div class="service-item role-${servicio.user?.rol || 'cliente'}">
+        <div class="service-info">
+          <h4>${servicio.nombre}</h4>
+          <p><strong>Precio:</strong> $${servicio.precio}</p>
+          <p><strong>Descripción:</strong> ${servicio.descripcion || 'Sin descripción'}</p>
+          <p><strong>Creado por:</strong> ${servicio.user?.nombre || 'Usuario'} 
+             (${servicio.user?.rol || 'cliente'})</p>
+          <p><strong>ID:</strong> ${servicio.id}</p>
+        </div>
+        <div class="service-actions">
+          ${puedeEditar ? `
+            <button class="btn btn-warning" onclick="editarServicio(${servicio.id})">Editar</button>
+            <button class="btn btn-danger" onclick="eliminarServicio(${servicio.id})">Eliminar</button>
+          ` : ''}
+        </div>
+      </div>
+    `
         })
 
         content.innerHTML = html
       }
 
+
       // Crear servicio
-      async function crearServicio (e) {
+      async function crearServicio(e) {
         e.preventDefault()
 
         const nombre = document.getElementById('nombre').value
@@ -664,7 +661,7 @@
       }
 
       // Crear usuario (solo superadmin)
-      async function crearUsuario (e) {
+      async function crearUsuario(e) {
         e.preventDefault()
 
         const nombre = document.getElementById('usuarioNombre').value
@@ -734,7 +731,7 @@
       }
 
       // Editar servicio
-      async function editarServicio (id) {
+      async function editarServicio(id) {
         const servicio = servicios.find(s => s.id === id)
         if (!servicio) return
 
@@ -768,7 +765,7 @@
       }
 
       // Eliminar servicio
-      async function eliminarServicio (id) {
+      async function eliminarServicio(id) {
         const servicio = servicios.find(s => s.id === id)
         if (!servicio) return
 
@@ -795,7 +792,7 @@
       }
 
       // Fetch con autenticación
-      async function fetchWithAuth (url, options = {}) {
+      async function fetchWithAuth(url, options = {}) {
         const token = localStorage.getItem('token')
 
         const defaultOptions = {
@@ -818,7 +815,7 @@
       }
 
       // Mostrar mensaje
-      function mostrarMensaje (texto, tipo = 'info') {
+      function mostrarMensaje(texto, tipo = 'info') {
         const mensaje = document.getElementById('mensaje')
         mensaje.innerHTML = texto
         mensaje.className = `mensaje ${tipo}`
@@ -833,7 +830,7 @@
       }
 
       // Cerrar sesión
-      function logout () {
+      function logout() {
         localStorage.removeItem('token')
         localStorage.removeItem('usuario')
         window.location.href = '/login'
